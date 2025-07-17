@@ -1,14 +1,16 @@
 import Header from "@/components/layout/Header"
-import { UserData, UserProps } from "@/interfaces"
+import { PostProps, UserData, UserProps } from "@/interfaces"
 import UserCard  from "@/components/common/UserCard";
+import PostCard from "@/components/common/PostCard";
 import React, { useState } from "react";
 import UserModal from "@/components/common/UserModal";
 
     interface UsersProps {
        users: UserProps[];
+       posts: PostProps[];
    }
  
-const Users: React.FC<UsersProps> = ({users: intialUsers}) => {
+const Users: React.FC<UsersProps> = ({users: intialUsers, posts}) => {
     const [users, setUsers] = useState(intialUsers);
     const [isModalOpen, setModalOpen] = useState(false);
     
@@ -42,6 +44,18 @@ const Users: React.FC<UsersProps> = ({users: intialUsers}) => {
                         ))
                     }
                 </div>
+
+                {/* Posts Section */}
+                <div>
+                    <div className="flex justify-between mb-4">
+                        <h1 className="text-2xl font-semibold">User Posts</h1>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {posts.map((post: PostProps) => (
+                        <PostCard key={post.id} {...post} />
+                        ))}
+                    </div>
+                    </div>
             </main>
               
               {isModalOpen && (
@@ -57,13 +71,15 @@ export async function getStaticProps() {
     fetch("https://jsonplaceholder.typicode.com/posts")
   ]);
 
-  const [users] = await Promise.all([
+  const [users, posts] = await Promise.all([
     usersRes.json(),
+    postsRes.json(),
   ])
 
   return {
     props: {
       users,
+      posts
     }
   };
 }
