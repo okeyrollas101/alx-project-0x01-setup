@@ -1,8 +1,9 @@
-import { UserModalProps, UserProp } from "@/interfaces";
+import { UserModalProps, UserProps } from "@/interfaces";
 import React, { useState } from "react";
 
 const UserModal: React.FC<UserModalProps> = ({ onClose, onSubmit }) => {
-  const [user, setUser] = useState<UserProp>({
+  const [user, setUser] = useState<UserProps>({
+    id: 0,
     name: "",
     username: "",
     email: "",
@@ -13,16 +14,16 @@ const UserModal: React.FC<UserModalProps> = ({ onClose, onSubmit }) => {
       zipcode: "",
       geo: {
         lat: "",
-        lng: "",
-      },
+        lng: ""
+      }
     },
     phone: "",
     website: "",
     company: {
       name: "",
       catchPhrase: "",
-      bs: "",
-    },
+      bs: ""
+    }
   });
 
    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
